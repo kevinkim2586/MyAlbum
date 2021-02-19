@@ -15,6 +15,7 @@ class AlbumViewController: UIViewController {
         albumCollectionView.delegate = self
         
         setFlowLayout()
+        authorizePhotoAccess()
         
         
         albumCollectionView.reloadData()
@@ -58,19 +59,15 @@ class AlbumViewController: UIViewController {
                         self.albumCollectionView.reloadData()
                     }
                     
-                    
                 case .denied:
                     print("사용자가 불허함")
                 default: break
-                    
                 }
             })
         case .restricted:
             print("접근 제한")
-     
         default: break
         }
-        
         PHPhotoLibrary.shared().register(self)
     }
     
@@ -85,7 +82,7 @@ class AlbumViewController: UIViewController {
         
         let fetchOptions = PHFetchOptions()
         fetchOptions.sortDescriptors = [NSSortDescriptor(key: "creationDate", ascending: false)]
-        self.fetchResult = PHAsset.fetchAssets(in: cameraRollCollection, options: fetchOptions)
+        fetchResult = PHAsset.fetchAssets(in: cameraRollCollection, options: fetchOptions)
     }
 
 }
@@ -95,11 +92,35 @@ class AlbumViewController: UIViewController {
 extension AlbumViewController: UICollectionViewDataSource, UICollectionViewDelegate{
     
     func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
-        <#code#>
+        return fetchResult?.count ?? 0
     }
     
     func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
-        <#code#>
+        
+        guard let cell = collectionView.dequeueReusableCell(withReuseIdentifier: Constants.albumCellIdentifier, for: indexPath) as? AlbumCollectionViewCell else{
+            return UICollectionViewCell()
+        }
+        
+        let asset: PHAsset = fetchResult.object(at: indexPath.row)
+        
+
+        let options: PHImageRequestOptions = PHImageRequestOptions()
+        options.resizeMode = .exact
+        
+        imageManager.requestImage(for: asset,
+                                  targetSize: CGSize(width: 30, height: 30),
+                                  contentMode: .aspectFill,
+                                  options: options,
+                                  resultHandler: { image, _ in
+                                    cell.albumImageView?.image = image
+                    
+                                  })
+        
+        
+        return cell
+        
+        
+        
     }
     
     
@@ -110,7 +131,16 @@ extension AlbumViewController: UICollectionViewDataSource, UICollectionViewDeleg
 extension AlbumViewController: PHPhotoLibraryChangeObserver{
     
     func photoLibraryDidChange(_ changeInstance: PHChange) {
-        <#code#>
+        
+        guard let changes = changeInstance.changeDetails(for: fetchResult) else{
+            return
+        }
+        
+        fetchResult = changes.fetchResultAfterChanges
+        
+        OperationQueue.main.addOperation {
+            self.albumCollectionView.reloadData()
+        }
     }
     
 
