@@ -14,6 +14,7 @@
 		7C0B8DB225DF582B0037A43E /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 7C0B8DB125DF582B0037A43E /* Assets.xcassets */; };
 		7C0B8DB525DF582B0037A43E /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 7C0B8DB325DF582B0037A43E /* LaunchScreen.storyboard */; };
 		7C0B8DC325DF5D8F0037A43E /* Constants.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7C0B8DC225DF5D8F0037A43E /* Constants.swift */; };
+		7C0B8DC725DF67F60037A43E /* AlbumCollectionViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7C0B8DC625DF67F60037A43E /* AlbumCollectionViewCell.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -26,6 +27,7 @@
 		7C0B8DB425DF582B0037A43E /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/LaunchScreen.storyboard; sourceTree = "<group>"; };
 		7C0B8DB625DF582B0037A43E /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		7C0B8DC225DF5D8F0037A43E /* Constants.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Constants.swift; sourceTree = "<group>"; };
+		7C0B8DC625DF67F60037A43E /* AlbumCollectionViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AlbumCollectionViewCell.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -81,6 +83,7 @@
 			children = (
 				7C0B8DB325DF582B0037A43E /* LaunchScreen.storyboard */,
 				7C0B8DAE25DF58280037A43E /* Main.storyboard */,
+				7C0B8DC625DF67F60037A43E /* AlbumCollectionViewCell.swift */,
 			);
 			path = View;
 			sourceTree = "<group>";
@@ -176,6 +179,7 @@
 				7C0B8DA925DF58280037A43E /* AppDelegate.swift in Sources */,
 				7C0B8DAB25DF58280037A43E /* SceneDelegate.swift in Sources */,
 				7C0B8DC325DF5D8F0037A43E /* Constants.swift in Sources */,
+				7C0B8DC725DF67F60037A43E /* AlbumCollectionViewCell.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
