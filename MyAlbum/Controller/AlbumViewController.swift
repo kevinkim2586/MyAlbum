@@ -49,14 +49,13 @@ class AlbumViewController: UIViewController {
     func setFlowLayout(){
         
         let flowLayout = UICollectionViewFlowLayout()
+        flowLayout.itemSize = CGSize(width: 180, height: 220)
  
         
         flowLayout.minimumInteritemSpacing = 10
-        flowLayout.minimumLineSpacing  = 100
+        flowLayout.minimumLineSpacing  = 10
         
-        let halfWidth: CGFloat = UIScreen.main.bounds.width / 2.0
-        
-        flowLayout.estimatedItemSize = CGSize(width: halfWidth, height: 90)
+
         
         albumCollectionView.collectionViewLayout = flowLayout
     }
@@ -154,7 +153,10 @@ extension AlbumViewController: UICollectionViewDelegateFlowLayout{
     
     // Here, we are able to specify what the margin, padding is of each cell
     
-    
+    func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, sizeForItemAt indexPath: IndexPath) -> CGSize {
+
+        return CGSize(width: 180, height: 220)
+    }
     
     
 //    func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, sizeForItemAt indexPath: IndexPath) -> CGSize {
@@ -170,9 +172,9 @@ extension AlbumViewController: UICollectionViewDelegateFlowLayout{
 //        return 1
 //    }
 //
-//    func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, insetForSectionAt section: Int) -> UIEdgeInsets {
-//        return UIEdgeInsets(top: 1, left: 1, bottom: 1, right: 1)
-//    }
+    func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, insetForSectionAt section: Int) -> UIEdgeInsets {
+        return UIEdgeInsets(top: 10, left: 10, bottom: 10, right: 10)
+    }
     
 }
 
