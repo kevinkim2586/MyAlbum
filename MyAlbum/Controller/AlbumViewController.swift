@@ -49,11 +49,10 @@ class AlbumViewController: UIViewController {
     func setFlowLayout(){
         
         let flowLayout = UICollectionViewFlowLayout()
-        flowLayout.itemSize = CGSize(width: 180, height: 220)
- 
-        
         flowLayout.minimumInteritemSpacing = 10
         flowLayout.minimumLineSpacing  = 10
+        flowLayout.sectionInset = UIEdgeInsets(top: 10, left: 10, bottom: 10, right: 10)
+        flowLayout.itemSize = CGSize(width: 180, height: 220)
         
 
         
@@ -84,7 +83,6 @@ class AlbumViewController: UIViewController {
                     OperationQueue.main.addOperation {
                         self.albumCollectionView.reloadData()
                     }
-                    
                 case .denied:
                     print("사용자가 불허함")
                 default: break
@@ -121,19 +119,15 @@ class AlbumViewController: UIViewController {
                 let albumCount = assetsFetchResult.count
                 // 저장
                 let newAlbum = AlbumModel(name:albumTitle, count: albumCount, collection:album)
-                print(newAlbum.name)
-                print(newAlbum.count)
+           
                 //앨범 정보 추가
                 self.albumModel.append(newAlbum)
             }
         }
         
-
-
         addAlbums(collection: cameraRoll)
         addAlbums(collection: favoriteList)
         addAlbums(collection: albumList)
-        
         
     }
     
@@ -153,29 +147,7 @@ extension AlbumViewController: UICollectionViewDelegateFlowLayout{
     
     // Here, we are able to specify what the margin, padding is of each cell
     
-    func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, sizeForItemAt indexPath: IndexPath) -> CGSize {
-
-        return CGSize(width: 180, height: 220)
-    }
-    
-    
-//    func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, sizeForItemAt indexPath: IndexPath) -> CGSize {
-//        return CGSize(width: (view.frame.size.width / 3)-3,
-//                      height: (view.frame.size.width / 3)-3)
-//    }
-    
-//    func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, minimumInteritemSpacingForSectionAt section: Int) -> CGFloat {
-//        return 1
-//    }
-//
-//    func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, minimumLineSpacingForSectionAt section: Int) -> CGFloat {
-//        return 1
-//    }
-//
-    func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, insetForSectionAt section: Int) -> UIEdgeInsets {
-        return UIEdgeInsets(top: 10, left: 10, bottom: 10, right: 10)
-    }
-    
+    // setFlowLayout() 함수에서 한 걸 그대로 여기다가 히면 됨
 }
 
 
