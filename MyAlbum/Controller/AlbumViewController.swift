@@ -1,24 +1,6 @@
 import UIKit
 import Photos
 
-
-class AlbumModel{
-    
-    let name: String
-    let count: Int
-    let collection: PHAssetCollection
-    
-    
-    init(name: String, count: Int, collection: PHAssetCollection) {
-        
-        self.name = name
-        self.count = count
-        self.collection = collection
-    }
-}
-
-
-
 class AlbumViewController: UIViewController {
     
     @IBOutlet weak var albumCollectionView: UICollectionView!
@@ -30,7 +12,7 @@ class AlbumViewController: UIViewController {
     
     var fetchOptions: PHFetchOptions {
         let fetchOptions = PHFetchOptions()
-        fetchOptions.sortDescriptors = [NSSortDescriptor(key: "creationDate", ascending: false)]
+        fetchOptions.sortDescriptors = [NSSortDescriptor(key:                           "creationDate", ascending: false)]
         return fetchOptions
     }
     
@@ -40,8 +22,9 @@ class AlbumViewController: UIViewController {
         albumCollectionView.dataSource = self
         albumCollectionView.delegate = self
         
-        setFlowLayout()
         authorizePhotoAccess()
+        setFlowLayout()
+        
         
         albumCollectionView.reloadData()
     }
@@ -51,11 +34,10 @@ class AlbumViewController: UIViewController {
         let flowLayout = UICollectionViewFlowLayout()
         flowLayout.minimumInteritemSpacing = 10
         flowLayout.minimumLineSpacing  = 10
-        flowLayout.sectionInset = UIEdgeInsets(top: 10, left: 10, bottom: 10, right: 10)
+        flowLayout.sectionInset = UIEdgeInsets(top: 10, left: 10,                           bottom: 10, right: 10)
         flowLayout.itemSize = CGSize(width: 180, height: 220)
         
-
-        
+        // Applying flowLayout to my CollectionView
         albumCollectionView.collectionViewLayout = flowLayout
     }
     
