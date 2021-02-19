@@ -4,16 +4,17 @@ import Photos
 
 class AlbumModel{
     
-    let name:String
-    let count:Int
-    let collection:PHAssetCollection
-    init(name:String, count:Int, collection:PHAssetCollection) {
+    let name: String
+    let count: Int
+    let collection: PHAssetCollection
+    
+    
+    init(name: String, count: Int, collection: PHAssetCollection) {
+        
         self.name = name
         self.count = count
         self.collection = collection
     }
-    
-    
 }
 
 
@@ -42,20 +43,21 @@ class AlbumViewController: UIViewController {
         setFlowLayout()
         authorizePhotoAccess()
         
-        
         albumCollectionView.reloadData()
     }
 
     func setFlowLayout(){
         
         let flowLayout = UICollectionViewFlowLayout()
-        flowLayout.sectionInset = UIEdgeInsets.zero
+ 
+        
         flowLayout.minimumInteritemSpacing = 10
-        flowLayout.minimumLineSpacing  = 10
+        flowLayout.minimumLineSpacing  = 100
         
         let halfWidth: CGFloat = UIScreen.main.bounds.width / 2.0
         
-        flowLayout.estimatedItemSize = CGSize(width: halfWidth - 30, height: 90)
+        flowLayout.estimatedItemSize = CGSize(width: halfWidth, height: 90)
+        
         albumCollectionView.collectionViewLayout = flowLayout
     }
     
@@ -105,9 +107,6 @@ class AlbumViewController: UIViewController {
         let favoriteList = PHAssetCollection.fetchAssetCollections(with: .smartAlbum, subtype: .smartAlbumFavorites, options: nil)
         let albumList = PHAssetCollection.fetchAssetCollections(with: .album, subtype: .albumRegular, options: nil)
         
-        
-        
-        
         [cameraRoll, favoriteList, albumList].forEach{
             
             $0.enumerateObjects { collection, index, stop in
@@ -130,20 +129,12 @@ class AlbumViewController: UIViewController {
             }
         }
         
-        
-        
-        
-        
-        
-        
+
 
         addAlbums(collection: cameraRoll)
         addAlbums(collection: favoriteList)
         addAlbums(collection: albumList)
         
-        OperationQueue.main.addOperation {
-            self.albumCollectionView.reloadData()
-        }
         
     }
     
@@ -161,12 +152,37 @@ class AlbumViewController: UIViewController {
 
 extension AlbumViewController: UICollectionViewDelegateFlowLayout{
     
+    // Here, we are able to specify what the margin, padding is of each cell
     
+    
+    
+    
+//    func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, sizeForItemAt indexPath: IndexPath) -> CGSize {
+//        return CGSize(width: (view.frame.size.width / 3)-3,
+//                      height: (view.frame.size.width / 3)-3)
+//    }
+    
+//    func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, minimumInteritemSpacingForSectionAt section: Int) -> CGFloat {
+//        return 1
+//    }
+//
+//    func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, minimumLineSpacingForSectionAt section: Int) -> CGFloat {
+//        return 1
+//    }
+//
+//    func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, insetForSectionAt section: Int) -> UIEdgeInsets {
+//        return UIEdgeInsets(top: 1, left: 1, bottom: 1, right: 1)
+//    }
     
 }
 
 
 extension AlbumViewController: UICollectionViewDataSource, UICollectionViewDelegate{
+    
+    func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
+        collectionView.deselectItem(at: indexPath, animated: true)
+        print("didSelectItem activated.")
+    }
     
     func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
         
@@ -184,19 +200,17 @@ extension AlbumViewController: UICollectionViewDataSource, UICollectionViewDeleg
             return UICollectionViewCell()
         }
         
-    
-        
         let options: PHImageRequestOptions = PHImageRequestOptions()
         options.resizeMode = .exact
-        
-        
+    
         imageManager.requestImage(for: asset,
-                                  targetSize: CGSize(width: 50, height: 50),
+                                  targetSize: CGSize(width: 300, height: 300),
                                   contentMode: .aspectFill,
                                   options: nil) { (image, _) in
                                   cell.albumImageView?.image = image
                                     
         }
+        
         
         cell.albumNameLabel.text = albumModel[indexPath.row].name
         cell.albumTotalNumberOfPicturesLabel.text = String(format: "%d", albumModel[indexPath.row].count)
@@ -208,23 +222,29 @@ extension AlbumViewController: UICollectionViewDataSource, UICollectionViewDeleg
     }
     
     
-    
-    
 }
+
+
+
+
+
+
+
+
 
 extension AlbumViewController: PHPhotoLibraryChangeObserver{
     
     func photoLibraryDidChange(_ changeInstance: PHChange) {
-            for i in 0..<self.fetchResult.count {
-                if let changes = changeInstance.changeDetails(for: fetchResult[i]) {
-                    fetchResult[i] = changes.fetchResultAfterChanges
-                }
-            }
-
-            OperationQueue.main.addOperation {
-                self.albumCollectionView.reloadData()
+        for i in 0..<self.fetchResult.count {
+            if let changes = changeInstance.changeDetails(for: fetchResult[i]) {
+                fetchResult[i] = changes.fetchResultAfterChanges
             }
         }
+        
+        OperationQueue.main.addOperation {
+            self.albumCollectionView.reloadData()
+        }
+    }
     
 
     
