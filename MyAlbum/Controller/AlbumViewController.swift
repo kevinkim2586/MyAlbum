@@ -1,12 +1,37 @@
 import UIKit
 import Photos
 
+
+class AlbumModel{
+    
+    let name:String
+    let count:Int
+    let collection:PHAssetCollection
+    init(name:String, count:Int, collection:PHAssetCollection) {
+        self.name = name
+        self.count = count
+        self.collection = collection
+    }
+    
+    
+}
+
+
+
 class AlbumViewController: UIViewController {
     
     @IBOutlet weak var albumCollectionView: UICollectionView!
     
-    var fetchResult: PHFetchResult<PHAsset>!
+    var albumModel: [AlbumModel] = [AlbumModel]()
+    
+    var fetchResult: [PHFetchResult<PHAsset>] = []
     let imageManager: PHCachingImageManager = PHCachingImageManager()
+    
+    var fetchOptions: PHFetchOptions {
+        let fetchOptions = PHFetchOptions()
+        fetchOptions.sortDescriptors = [NSSortDescriptor(key: "creationDate", ascending: false)]
+        return fetchOptions
+    }
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -71,28 +96,82 @@ class AlbumViewController: UIViewController {
         PHPhotoLibrary.shared().register(self)
     }
     
+    
+    
     func requestCollection(){
         
-        let cameraRoll: PHFetchResult<PHAssetCollection>
-            = PHAssetCollection.fetchAssetCollections(with: .smartAlbum, subtype: .smartAlbumUserLibrary, options: nil)
+        let cameraRoll = PHAssetCollection.fetchAssetCollections(with: .smartAlbum, subtype: .smartAlbumUserLibrary, options: nil)
         
-        guard let cameraRollCollection = cameraRoll.firstObject else{
-            return
+        let favoriteList = PHAssetCollection.fetchAssetCollections(with: .smartAlbum, subtype: .smartAlbumFavorites, options: nil)
+        let albumList = PHAssetCollection.fetchAssetCollections(with: .album, subtype: .albumRegular, options: nil)
+        
+        
+        
+        
+        [cameraRoll, favoriteList, albumList].forEach{
+            
+            $0.enumerateObjects { collection, index, stop in
+                
+                let album = collection
+                // PHAssetCollection 의 localizedTitle 을 이용해 앨범 타이틀 가져오기
+                let albumTitle : String = album.localizedTitle!
+                // 이미지만 가져오도록 옵션 설정
+                let fetchOptions2 = PHFetchOptions()
+                fetchOptions2.predicate = NSPredicate(format: "mediaType = %d", PHAssetMediaType.image.rawValue)
+                let assetsFetchResult: PHFetchResult = PHAsset.fetchAssets(in: album, options: fetchOptions2)
+                // PHFetchResult 의 count 을 이용해 앨범 사진 갯수 가져오기
+                let albumCount = assetsFetchResult.count
+                // 저장
+                let newAlbum = AlbumModel(name:albumTitle, count: albumCount, collection:album)
+                print(newAlbum.name)
+                print(newAlbum.count)
+                //앨범 정보 추가
+                self.albumModel.append(newAlbum)
+            }
         }
         
-        let fetchOptions = PHFetchOptions()
-        fetchOptions.sortDescriptors = [NSSortDescriptor(key: "creationDate", ascending: false)]
-        fetchResult = PHAsset.fetchAssets(in: cameraRollCollection, options: fetchOptions)
+        
+        
+        
+        
+        
+        
+
+        addAlbums(collection: cameraRoll)
+        addAlbums(collection: favoriteList)
+        addAlbums(collection: albumList)
+        
+        OperationQueue.main.addOperation {
+            self.albumCollectionView.reloadData()
+        }
+        
     }
+    
+    func addAlbums(collection : PHFetchResult<PHAssetCollection>){
+        for i in 0 ..< collection.count {
+            let collection = collection.object(at: i)
+            self.fetchResult.append(PHAsset.fetchAssets(in: collection, options: fetchOptions))
+        }
+    }
+    
 
 }
 
 
 
+extension AlbumViewController: UICollectionViewDelegateFlowLayout{
+    
+    
+    
+}
+
+
 extension AlbumViewController: UICollectionViewDataSource, UICollectionViewDelegate{
     
     func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
-        return fetchResult?.count ?? 0
+        
+        return albumModel.count
+        //return fetchResult.count
     }
     
     func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
@@ -101,21 +180,26 @@ extension AlbumViewController: UICollectionViewDataSource, UICollectionViewDeleg
             return UICollectionViewCell()
         }
         
-        let asset: PHAsset = fetchResult.object(at: indexPath.row)
+        guard let asset = fetchResult[indexPath.row].firstObject else {
+            return UICollectionViewCell()
+        }
         
-
+    
+        
         let options: PHImageRequestOptions = PHImageRequestOptions()
         options.resizeMode = .exact
         
-        imageManager.requestImage(for: asset,
-                                  targetSize: CGSize(width: 30, height: 30),
-                                  contentMode: .aspectFill,
-                                  options: options,
-                                  resultHandler: { image, _ in
-                                    cell.albumImageView?.image = image
-                    
-                                  })
         
+        imageManager.requestImage(for: asset,
+                                  targetSize: CGSize(width: 50, height: 50),
+                                  contentMode: .aspectFill,
+                                  options: nil) { (image, _) in
+                                  cell.albumImageView?.image = image
+                                    
+        }
+        
+        cell.albumNameLabel.text = albumModel[indexPath.row].name
+        cell.albumTotalNumberOfPicturesLabel.text = String(format: "%d", albumModel[indexPath.row].count)
         
         return cell
         
@@ -131,17 +215,16 @@ extension AlbumViewController: UICollectionViewDataSource, UICollectionViewDeleg
 extension AlbumViewController: PHPhotoLibraryChangeObserver{
     
     func photoLibraryDidChange(_ changeInstance: PHChange) {
-        
-        guard let changes = changeInstance.changeDetails(for: fetchResult) else{
-            return
+            for i in 0..<self.fetchResult.count {
+                if let changes = changeInstance.changeDetails(for: fetchResult[i]) {
+                    fetchResult[i] = changes.fetchResultAfterChanges
+                }
+            }
+
+            OperationQueue.main.addOperation {
+                self.albumCollectionView.reloadData()
+            }
         }
-        
-        fetchResult = changes.fetchResultAfterChanges
-        
-        OperationQueue.main.addOperation {
-            self.albumCollectionView.reloadData()
-        }
-    }
     
 
     

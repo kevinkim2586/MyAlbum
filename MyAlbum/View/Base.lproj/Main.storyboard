@@ -68,7 +68,7 @@
                                         <connections>
                                             <outlet property="albumImageView" destination="5EZ-uS-yxO" id="SAu-V0-Xan"/>
                                             <outlet property="albumNameLabel" destination="jJM-V3-6Zj" id="hqM-5b-9co"/>
-                                            <outlet property="albumTotalPictureLabel" destination="UGA-mq-0XW" id="rYN-oH-vl8"/>
+                                            <outlet property="albumTotalNumberOfPicturesLabel" destination="UGA-mq-0XW" id="rYN-oH-vl8"/>
                                         </connections>
                                     </collectionViewCell>
                                 </cells>
