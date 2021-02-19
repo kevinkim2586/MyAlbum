@@ -15,6 +15,7 @@
 		7C0B8DB525DF582B0037A43E /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 7C0B8DB325DF582B0037A43E /* LaunchScreen.storyboard */; };
 		7C0B8DC325DF5D8F0037A43E /* Constants.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7C0B8DC225DF5D8F0037A43E /* Constants.swift */; };
 		7C0B8DC725DF67F60037A43E /* AlbumCollectionViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7C0B8DC625DF67F60037A43E /* AlbumCollectionViewCell.swift */; };
+		7C0B8DCA25DFC0080037A43E /* PictureListViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7C0B8DC925DFC0080037A43E /* PictureListViewController.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -28,6 +29,7 @@
 		7C0B8DB625DF582B0037A43E /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		7C0B8DC225DF5D8F0037A43E /* Constants.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Constants.swift; sourceTree = "<group>"; };
 		7C0B8DC625DF67F60037A43E /* AlbumCollectionViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AlbumCollectionViewCell.swift; sourceTree = "<group>"; };
+		7C0B8DC925DFC0080037A43E /* PictureListViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PictureListViewController.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -92,6 +94,7 @@
 			isa = PBXGroup;
 			children = (
 				7C0B8DAC25DF58280037A43E /* AlbumViewController.swift */,
+				7C0B8DC925DFC0080037A43E /* PictureListViewController.swift */,
 			);
 			path = Controller;
 			sourceTree = "<group>";
@@ -178,6 +181,7 @@
 				7C0B8DAD25DF58280037A43E /* AlbumViewController.swift in Sources */,
 				7C0B8DA925DF58280037A43E /* AppDelegate.swift in Sources */,
 				7C0B8DAB25DF58280037A43E /* SceneDelegate.swift in Sources */,
+				7C0B8DCA25DFC0080037A43E /* PictureListViewController.swift in Sources */,
 				7C0B8DC325DF5D8F0037A43E /* Constants.swift in Sources */,
 				7C0B8DC725DF67F60037A43E /* AlbumCollectionViewCell.swift in Sources */,
 			);

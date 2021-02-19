@@ -146,7 +146,6 @@ class AlbumViewController: UIViewController {
 extension AlbumViewController: UICollectionViewDelegateFlowLayout{
     
     // Here, we are able to specify what the margin, padding is of each cell
-    
     // setFlowLayout() 함수에서 한 걸 그대로 여기다가 히면 됨
 }
 
@@ -155,7 +154,8 @@ extension AlbumViewController: UICollectionViewDataSource, UICollectionViewDeleg
     
     func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
         collectionView.deselectItem(at: indexPath, animated: true)
-        print("didSelectItem activated.")
+        
+        
     }
     
     func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
