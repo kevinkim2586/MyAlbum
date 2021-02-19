@@ -9,10 +9,10 @@ class AlbumViewController: UIViewController {
     
     var fetchResult: [PHFetchResult<PHAsset>] = []
     let imageManager: PHCachingImageManager = PHCachingImageManager()
-    
-    var fetchOptions: PHFetchOptions {
+    var fetchOptions: PHFetchOptions{
+        
         let fetchOptions = PHFetchOptions()
-        fetchOptions.sortDescriptors = [NSSortDescriptor(key:                           "creationDate", ascending: false)]
+        fetchOptions.predicate = NSPredicate(format: "mediaType = %d", PHAssetMediaType.image.rawValue)
         return fetchOptions
     }
     
@@ -24,7 +24,6 @@ class AlbumViewController: UIViewController {
         
         authorizePhotoAccess()
         setFlowLayout()
-        
         
         albumCollectionView.reloadData()
     }
@@ -40,8 +39,7 @@ class AlbumViewController: UIViewController {
         // Applying flowLayout to my CollectionView
         albumCollectionView.collectionViewLayout = flowLayout
     }
-    
-    
+
     func authorizePhotoAccess(){
         
         let photoAuthorizationStatus = PHPhotoLibrary.authorizationStatus()
@@ -77,12 +75,9 @@ class AlbumViewController: UIViewController {
         PHPhotoLibrary.shared().register(self)
     }
     
-    
-    
     func requestCollection(){
         
         let cameraRoll = PHAssetCollection.fetchAssetCollections(with: .smartAlbum, subtype: .smartAlbumUserLibrary, options: nil)
-        
         let favoriteList = PHAssetCollection.fetchAssetCollections(with: .smartAlbum, subtype: .smartAlbumFavorites, options: nil)
         let albumList = PHAssetCollection.fetchAssetCollections(with: .album, subtype: .albumRegular, options: nil)
         
@@ -91,18 +86,15 @@ class AlbumViewController: UIViewController {
             $0.enumerateObjects { collection, index, stop in
                 
                 let album = collection
-                // PHAssetCollection 의 localizedTitle 을 이용해 앨범 타이틀 가져오기
+              
                 let albumTitle : String = album.localizedTitle!
-                // 이미지만 가져오도록 옵션 설정
-                let fetchOptions2 = PHFetchOptions()
-                fetchOptions2.predicate = NSPredicate(format: "mediaType = %d", PHAssetMediaType.image.rawValue)
-                let assetsFetchResult: PHFetchResult = PHAsset.fetchAssets(in: album, options: fetchOptions2)
-                // PHFetchResult 의 count 을 이용해 앨범 사진 갯수 가져오기
+
+                let assetsFetchResult: PHFetchResult = PHAsset.fetchAssets(in: album, options: self.fetchOptions)
+            
                 let albumCount = assetsFetchResult.count
-                // 저장
+          
                 let newAlbum = AlbumModel(name:albumTitle, count: albumCount, collection:album)
            
-                //앨범 정보 추가
                 self.albumModel.append(newAlbum)
             }
         }
