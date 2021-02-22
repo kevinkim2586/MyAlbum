@@ -95,7 +95,7 @@
         <!--앨범 이름-->
         <scene sceneID="7rV-l7-23N">
             <objects>
-                <viewController id="ELz-nm-uB3" customClass="PictureListViewController" customModule="MyAlbum" customModuleProvider="target" sceneMemberID="viewController">
+                <viewController storyboardIdentifier="pictureVC" id="ELz-nm-uB3" customClass="PictureListViewController" customModule="MyAlbum" customModuleProvider="target" sceneMemberID="viewController">
                     <view key="view" contentMode="scaleToFill" id="5Ox-aR-3kL">
                         <rect key="frame" x="0.0" y="0.0" width="390" height="844"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
@@ -110,7 +110,7 @@
                                     <inset key="sectionInset" minX="0.0" minY="0.0" maxX="0.0" maxY="0.0"/>
                                 </collectionViewFlowLayout>
                                 <cells>
-                                    <collectionViewCell opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" id="ruj-Xz-lXr" customClass="PictureListCollectionViewCell" customModule="MyAlbum" customModuleProvider="target">
+                                    <collectionViewCell opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" reuseIdentifier="pictureCell" id="ruj-Xz-lXr" customClass="PictureListCollectionViewCell" customModule="MyAlbum" customModuleProvider="target">
                                         <rect key="frame" x="0.0" y="0.0" width="173" height="172"/>
                                         <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                                         <collectionViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" insetsLayoutMarginsFromSafeArea="NO" id="fZe-uT-WIh">
@@ -155,6 +155,9 @@
                     <navigationItem key="navigationItem" title="앨범 이름" largeTitleDisplayMode="never" id="saI-qf-pVn">
                         <barButtonItem key="rightBarButtonItem" title="선택" id="p2m-oQ-baj"/>
                     </navigationItem>
+                    <connections>
+                        <outlet property="pictureCollectionView" destination="1H6-eQ-Dn5" id="Lwv-o2-TZd"/>
+                    </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="LbJ-5I-3pP" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>
             </objects>

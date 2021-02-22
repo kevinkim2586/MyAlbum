@@ -3,9 +3,9 @@ import Photos
 
 class AlbumModel{
     
-    let name: String
-    let count: Int
-    let collection: PHAssetCollection
+    var name: String
+    var count: Int
+    var collection: PHAssetCollection
     
     init(name: String, count: Int, collection: PHAssetCollection) {
         

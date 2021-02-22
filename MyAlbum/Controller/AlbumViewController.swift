@@ -10,9 +10,10 @@ class AlbumViewController: UIViewController {
     var fetchResult: [PHFetchResult<PHAsset>] = []
     let imageManager: PHCachingImageManager = PHCachingImageManager()
     var fetchOptions: PHFetchOptions{
-        
+
         let fetchOptions = PHFetchOptions()
-        fetchOptions.predicate = NSPredicate(format: "mediaType = %d", PHAssetMediaType.image.rawValue)
+        fetchOptions.sortDescriptors = [NSSortDescriptor(key: "creationDate", ascending: false)]
+        //fetchOptions.predicate = NSPredicate(format: "mediaType = %d", PHAssetMediaType.image.rawValue)
         return fetchOptions
     }
     
@@ -33,7 +34,7 @@ class AlbumViewController: UIViewController {
         let flowLayout = UICollectionViewFlowLayout()
         flowLayout.minimumInteritemSpacing = 10
         flowLayout.minimumLineSpacing  = 10
-        flowLayout.sectionInset = UIEdgeInsets(top: 10, left: 10,                           bottom: 10, right: 10)
+        flowLayout.sectionInset = UIEdgeInsets(top: 10, left: 10, bottom: 10, right: 10)
         flowLayout.itemSize = CGSize(width: 180, height: 220)
         
         // Applying flowLayout to my CollectionView
@@ -88,11 +89,8 @@ class AlbumViewController: UIViewController {
                 let album = collection
               
                 let albumTitle : String = album.localizedTitle!
-
                 let assetsFetchResult: PHFetchResult = PHAsset.fetchAssets(in: album, options: self.fetchOptions)
-            
                 let albumCount = assetsFetchResult.count
-          
                 let newAlbum = AlbumModel(name:albumTitle, count: albumCount, collection:album)
            
                 self.albumModel.append(newAlbum)
@@ -115,21 +113,20 @@ class AlbumViewController: UIViewController {
 
 }
 
-
-
-extension AlbumViewController: UICollectionViewDelegateFlowLayout{
-    
-    // Here, we are able to specify what the margin, padding is of each cell
-    // setFlowLayout() 함수에서 한 걸 그대로 여기다가 히면 됨
-}
-
-
 extension AlbumViewController: UICollectionViewDataSource, UICollectionViewDelegate{
     
     func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
         collectionView.deselectItem(at: indexPath, animated: true)
         
+        guard let pictureVC = self.storyboard?.instantiateViewController(identifier: "pictureVC") as? PictureListViewController else{
+            return
+        }
         
+        pictureVC.album = albumModel[indexPath.row]
+        pictureVC.fetchResult = fetchResult[indexPath.row]
+        pictureVC.numberOfPictures = fetchResult[indexPath.row].count
+        pictureVC.albumName = albumModel[indexPath.row].collection.localizedTitle!
+
     }
     
     func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
@@ -142,6 +139,8 @@ extension AlbumViewController: UICollectionViewDataSource, UICollectionViewDeleg
         
         guard let cell = collectionView.dequeueReusableCell(withReuseIdentifier: Constants.albumCellIdentifier, for: indexPath) as? AlbumCollectionViewCell else{
             return UICollectionViewCell()
+            
+            
         }
         
         guard let asset = fetchResult[indexPath.row].firstObject else {
@@ -156,9 +155,9 @@ extension AlbumViewController: UICollectionViewDataSource, UICollectionViewDeleg
                                   contentMode: .aspectFill,
                                   options: nil) { (image, _) in
                                   cell.albumImageView?.image = image
-                                    
+            
+            
         }
-        
         
         cell.albumNameLabel.text = albumModel[indexPath.row].name
         cell.albumTotalNumberOfPicturesLabel.text = String(format: "%d", albumModel[indexPath.row].count)
@@ -171,12 +170,6 @@ extension AlbumViewController: UICollectionViewDataSource, UICollectionViewDeleg
     
     
 }
-
-
-
-
-
-
 
 
 
