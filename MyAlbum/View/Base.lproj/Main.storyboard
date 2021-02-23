@@ -85,6 +85,7 @@
                     <navigationItem key="navigationItem" title="앨범" largeTitleDisplayMode="always" id="ZGN-ax-CzK"/>
                     <connections>
                         <outlet property="albumCollectionView" destination="aiX-PF-UwW" id="eo8-Jr-b4w"/>
+                        <segue destination="ELz-nm-uB3" kind="show" id="Qgh-6e-nYV"/>
                     </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="dkx-z0-nzr" sceneMemberID="firstResponder"/>
@@ -100,7 +101,7 @@
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
                             <collectionView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" dataMode="prototypes" translatesAutoresizingMaskIntoConstraints="NO" id="1H6-eQ-Dn5" userLabel="Picture Collection View">
-                                <rect key="frame" x="0.0" y="44" width="390" height="766"/>
+                                <rect key="frame" x="0.0" y="88" width="390" height="722"/>
                                 <color key="backgroundColor" systemColor="systemBackgroundColor"/>
                                 <collectionViewFlowLayout key="collectionViewLayout" automaticEstimatedItemSize="YES" minimumLineSpacing="10" minimumInteritemSpacing="10" id="Hfh-4h-Asa">
                                     <size key="itemSize" width="173" height="172"/>
@@ -139,9 +140,21 @@
                                 <autoresizingMask key="autoresizingMask" widthSizable="YES" flexibleMinY="YES"/>
                                 <items>
                                     <barButtonItem style="plain" systemItem="flexibleSpace" id="QFN-gP-AFP"/>
-                                    <barButtonItem systemItem="action" id="3Do-KZ-CIl"/>
-                                    <barButtonItem title="최신순" width="409.66666666666669" id="3sm-4T-KoF"/>
-                                    <barButtonItem systemItem="trash" id="gKE-cW-z25"/>
+                                    <barButtonItem systemItem="action" id="3Do-KZ-CIl">
+                                        <connections>
+                                            <action selector="pressedShareButton:" destination="ELz-nm-uB3" id="dHM-ew-KYG"/>
+                                        </connections>
+                                    </barButtonItem>
+                                    <barButtonItem title="최신순" width="409.66666666666669" id="3sm-4T-KoF">
+                                        <connections>
+                                            <action selector="pressedOrderButton:" destination="ELz-nm-uB3" id="XBB-7q-eUM"/>
+                                        </connections>
+                                    </barButtonItem>
+                                    <barButtonItem systemItem="trash" id="gKE-cW-z25">
+                                        <connections>
+                                            <action selector="pressedTrashButton:" destination="ELz-nm-uB3" id="0h8-Ez-AA8"/>
+                                        </connections>
+                                    </barButtonItem>
                                 </items>
                             </toolbar>
                         </subviews>
@@ -155,18 +168,37 @@
                         </constraints>
                     </view>
                     <navigationItem key="navigationItem" title="앨범 이름" largeTitleDisplayMode="never" id="saI-qf-pVn">
-                        <barButtonItem key="rightBarButtonItem" title="선택" id="p2m-oQ-baj"/>
+                        <barButtonItem key="rightBarButtonItem" title="선택" id="p2m-oQ-baj">
+                            <connections>
+                                <action selector="pressedSelectButton:" destination="ELz-nm-uB3" id="Te7-Tf-96s"/>
+                            </connections>
+                        </barButtonItem>
                     </navigationItem>
                     <connections>
-                        <outlet property="orderButton" destination="3sm-4T-KoF" id="Nu8-kG-QKh"/>
+                        <outlet property="orderButton" destination="3sm-4T-KoF" id="WUW-65-q5l"/>
                         <outlet property="pictureCollectionView" destination="1H6-eQ-Dn5" id="Lwv-o2-TZd"/>
-                        <outlet property="shareButton" destination="3Do-KZ-CIl" id="Kek-m5-Vlb"/>
-                        <outlet property="trashButton" destination="gKE-cW-z25" id="lQ3-BM-bDv"/>
+                        <outlet property="selectButton" destination="p2m-oQ-baj" id="svT-av-rNE"/>
+                        <outlet property="trashButton" destination="gKE-cW-z25" id="LN0-Gb-0YK"/>
                     </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="LbJ-5I-3pP" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>
             </objects>
             <point key="canvasLocation" x="1900" y="92.417061611374407"/>
+        </scene>
+        <!--View Controller-->
+        <scene sceneID="E2t-ur-FJa">
+            <objects>
+                <viewController id="1op-cP-R1u" sceneMemberID="viewController">
+                    <view key="view" contentMode="scaleToFill" id="LG3-ul-F5C">
+                        <rect key="frame" x="0.0" y="0.0" width="390" height="844"/>
+                        <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+                        <viewLayoutGuide key="safeArea" id="ftu-yu-ypz"/>
+                        <color key="backgroundColor" systemColor="systemBackgroundColor"/>
+                    </view>
+                </viewController>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="Tda-gO-zs9" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>
+            </objects>
+            <point key="canvasLocation" x="2825" y="93"/>
         </scene>
         <!--Navigation Controller-->
         <scene sceneID="xQu-GV-Bti">
