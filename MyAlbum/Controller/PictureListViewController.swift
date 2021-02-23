@@ -6,12 +6,27 @@ class PictureListViewController: UIViewController {
     @IBOutlet weak var pictureCollectionView: UICollectionView!
     
     var album: AlbumModel = AlbumModel(name: "", count: 0, collection: PHAssetCollection())
-    
-    let imageManager = PHImageManager.default()
     var numberOfPictures: Int = 0
     var albumName: String = ""
-    
+
+    let imageManager = PHImageManager.default()
     var imageArray = [PHAsset]()
+    
+    var options: PHImageRequestOptions{
+        
+        let options = PHImageRequestOptions()
+        options.resizeMode = .exact
+        options.isSynchronous = true
+        options.deliveryMode = .opportunistic
+        return options
+    }
+    
+    var fetchOptions: PHFetchOptions{
+        
+        let fetchOptions = PHFetchOptions()
+        fetchOptions.sortDescriptors = [NSSortDescriptor(key: "creationDate", ascending: false)]
+        return fetchOptions
+    }
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -35,13 +50,8 @@ class PictureListViewController: UIViewController {
     }
     
     func grabPhotos(){
+
         
-        let requestOptions = PHImageRequestOptions()
-        requestOptions.isSynchronous = true
-        requestOptions.deliveryMode = .opportunistic
-        
-        let fetchOptions = PHFetchOptions()
-        fetchOptions.sortDescriptors = [NSSortDescriptor(key: "creationDate", ascending: false)]
         
         let albumCollection = album.collection
         let assetsFetchResult: PHFetchResult = PHAsset.fetchAssets(in: albumCollection, options: fetchOptions)
@@ -55,22 +65,21 @@ class PictureListViewController: UIViewController {
     }
 }
 
+//MARK: - UICollectionViewDataSource, UICollectionViewDelegate
+
 extension PictureListViewController: UICollectionViewDataSource, UICollectionViewDelegate{
     
     func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
-
         return imageArray.count
     }
     
     func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
     
         guard let cell = pictureCollectionView.dequeueReusableCell(withReuseIdentifier: Constants.pictureCellIdentifier, for: indexPath) as? PictureListCollectionViewCell else{
-            
             return UICollectionViewCell()
         }
         
-        let options: PHImageRequestOptions = PHImageRequestOptions()
-        options.resizeMode = .exact
+        
         
         let asset = imageArray[indexPath.row]
         
