@@ -13,7 +13,6 @@ class AlbumViewController: UIViewController {
 
         let fetchOptions = PHFetchOptions()
         fetchOptions.sortDescriptors = [NSSortDescriptor(key: "creationDate", ascending: false)]
-        //fetchOptions.predicate = NSPredicate(format: "mediaType = %d", PHAssetMediaType.image.rawValue)
         return fetchOptions
     }
     
@@ -87,23 +86,29 @@ class AlbumViewController: UIViewController {
             $0.enumerateObjects { collection, index, stop in
                 
                 let album = collection
-              
                 let albumTitle : String = album.localizedTitle!
+                
                 let assetsFetchResult: PHFetchResult = PHAsset.fetchAssets(in: album, options: self.fetchOptions)
                 let albumCount = assetsFetchResult.count
+                
                 let newAlbum = AlbumModel(name:albumTitle, count: albumCount, collection:album)
-           
+
                 self.albumModel.append(newAlbum)
+                
+                // albumModel[indexPath.row] 형태로 넘기면 될듯
+     
             }
         }
-        
+    
         addAlbums(collection: cameraRoll)
         addAlbums(collection: favoriteList)
         addAlbums(collection: albumList)
-        
     }
     
+    
+    
     func addAlbums(collection : PHFetchResult<PHAssetCollection>){
+        
         for i in 0 ..< collection.count {
             let collection = collection.object(at: i)
             self.fetchResult.append(PHAsset.fetchAssets(in: collection, options: fetchOptions))
@@ -115,6 +120,8 @@ class AlbumViewController: UIViewController {
 
 extension AlbumViewController: UICollectionViewDataSource, UICollectionViewDelegate{
     
+    // 앨범을 누르면 실행
+    
     func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
         collectionView.deselectItem(at: indexPath, animated: true)
         
@@ -122,18 +129,14 @@ extension AlbumViewController: UICollectionViewDataSource, UICollectionViewDeleg
             return
         }
         
-        pictureVC.album = albumModel[indexPath.row]
-        pictureVC.fetchResult = fetchResult[indexPath.row]
-        pictureVC.numberOfPictures = fetchResult[indexPath.row].count
-        pictureVC.albumName = albumModel[indexPath.row].collection.localizedTitle!
 
+        pictureVC.album = albumModel[indexPath.row]
+        pictureVC.title = albumModel[indexPath.row].name
+        
+        self.show(pictureVC, sender: self)
     }
     
-    func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
-        
-        return albumModel.count
-        //return fetchResult.count
-    }
+    // 각 셀 만듦
     
     func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
         
@@ -159,6 +162,8 @@ extension AlbumViewController: UICollectionViewDataSource, UICollectionViewDeleg
             
         }
         
+        
+        
         cell.albumNameLabel.text = albumModel[indexPath.row].name
         cell.albumTotalNumberOfPicturesLabel.text = String(format: "%d", albumModel[indexPath.row].count)
         
@@ -166,6 +171,10 @@ extension AlbumViewController: UICollectionViewDataSource, UICollectionViewDeleg
         
         
         
+    }
+    
+    func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
+        return albumModel.count
     }
     
     

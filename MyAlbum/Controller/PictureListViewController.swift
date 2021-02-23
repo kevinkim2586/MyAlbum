@@ -5,17 +5,13 @@ class PictureListViewController: UIViewController {
     
     @IBOutlet weak var pictureCollectionView: UICollectionView!
     
-    let pictureCollection: PHAssetCollection = .init()
-    
     var album: AlbumModel = AlbumModel(name: "", count: 0, collection: PHAssetCollection())
     
-    
-    var fetchResult: PHFetchResult<PHAsset> = PHFetchResult()
     let imageManager = PHImageManager.default()
     var numberOfPictures: Int = 0
     var albumName: String = ""
     
-    var imageArray = [UIImage]()
+    var imageArray = [PHAsset]()
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -26,9 +22,6 @@ class PictureListViewController: UIViewController {
         grabPhotos()
         
        
-        
-       
-        
 
         pictureCollectionView.reloadData()
     }
@@ -44,28 +37,17 @@ class PictureListViewController: UIViewController {
         
         
         
-        
-        
         let albumCollection = album.collection
         let assetsFetchResult: PHFetchResult = PHAsset.fetchAssets(in: albumCollection, options: fetchOptions)
         
-
-        for i in 0..<album.count{
-            
-            imageManager.requestImage(for: albumCollection  ,
-                                      targetSize: CGSize(width: 300, height: 300),
-                                      contentMode: .aspectFill,
-                                      options: requestOptions,
-                                      resultHandler:
-                                        { image, _ in
-                                            
-                                            self.imageArray.append(image!)
-                                        
-                                      })
-            
-        }
-        pictureCollectionView.reloadData()
+        numberOfPictures = assetsFetchResult.count
         
+        
+        assetsFetchResult.enumerateObjects { (object, _, _) in
+            self.imageArray.append(object)
+        }
+        //imageArray.reverse()
+        pictureCollectionView.reloadData()
         
         
         
@@ -82,29 +64,38 @@ class PictureListViewController: UIViewController {
         
         pictureCollectionView.collectionViewLayout = flowLayout
     }
-
     
-    
-
-    
-
 }
 
 
 extension PictureListViewController: UICollectionViewDataSource, UICollectionViewDelegate{
     
     func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
-        return album.count
+
+        return imageArray.count
+        //return fetchResult.count
     }
     
     func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
+        
         
         guard let cell = pictureCollectionView.dequeueReusableCell(withReuseIdentifier: Constants.pictureCellIdentifier, for: indexPath) as? PictureListCollectionViewCell else{
             
             return UICollectionViewCell()
         }
         
-        cell.pictureImageView.image = imageArray[indexPath.row]
+        let asset = imageArray[indexPath.row]
+        
+        imageManager.requestImage(for: asset, targetSize: CGSize(width: 300, height: 300), contentMode: .aspectFill, options: nil, resultHandler: {
+            (image, _ ) in
+            
+            DispatchQueue.main.async {
+                cell.pictureImageView?.image = image
+            }
+        })
+        
+        
+        //cell.pictureImageView.image = imageArray[indexPath.row]
         
         
         return cell
