@@ -138,7 +138,10 @@
                                 <rect key="frame" x="0.0" y="766" width="390" height="44"/>
                                 <autoresizingMask key="autoresizingMask" widthSizable="YES" flexibleMinY="YES"/>
                                 <items>
-                                    <barButtonItem title="Item" id="5Xi-d9-TqK"/>
+                                    <barButtonItem style="plain" systemItem="flexibleSpace" id="QFN-gP-AFP"/>
+                                    <barButtonItem systemItem="action" id="3Do-KZ-CIl"/>
+                                    <barButtonItem title="최신순" width="409.66666666666669" id="3sm-4T-KoF"/>
+                                    <barButtonItem systemItem="trash" id="gKE-cW-z25"/>
                                 </items>
                             </toolbar>
                         </subviews>

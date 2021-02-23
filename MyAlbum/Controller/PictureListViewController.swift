@@ -20,10 +20,18 @@ class PictureListViewController: UIViewController {
         pictureCollectionView.dataSource = self
         setFlowLayout()
         grabPhotos()
-        
-       
-
         pictureCollectionView.reloadData()
+    }
+    
+    func setFlowLayout(){
+        
+        let flowLayout = UICollectionViewFlowLayout()
+        flowLayout.minimumInteritemSpacing = 10
+        flowLayout.minimumLineSpacing  = 1
+        flowLayout.sectionInset = UIEdgeInsets(top: 10, left: 10, bottom: 10, right: 10)
+        flowLayout.itemSize = CGSize(width: 180, height: 220)
+        
+        pictureCollectionView.collectionViewLayout = flowLayout
     }
     
     func grabPhotos(){
@@ -35,50 +43,27 @@ class PictureListViewController: UIViewController {
         let fetchOptions = PHFetchOptions()
         fetchOptions.sortDescriptors = [NSSortDescriptor(key: "creationDate", ascending: false)]
         
-        
-        
         let albumCollection = album.collection
         let assetsFetchResult: PHFetchResult = PHAsset.fetchAssets(in: albumCollection, options: fetchOptions)
         
         numberOfPictures = assetsFetchResult.count
         
-        
         assetsFetchResult.enumerateObjects { (object, _, _) in
             self.imageArray.append(object)
         }
-        //imageArray.reverse()
         pictureCollectionView.reloadData()
-        
-        
-        
     }
-    
-
-    func setFlowLayout(){
-        
-        let flowLayout = UICollectionViewFlowLayout()
-        flowLayout.minimumInteritemSpacing = 10
-        flowLayout.minimumLineSpacing  = 10
-        flowLayout.sectionInset = UIEdgeInsets(top: 10, left: 10, bottom: 10, right: 10)
-        flowLayout.itemSize = CGSize(width: 180, height: 220)
-        
-        pictureCollectionView.collectionViewLayout = flowLayout
-    }
-    
 }
-
 
 extension PictureListViewController: UICollectionViewDataSource, UICollectionViewDelegate{
     
     func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
 
         return imageArray.count
-        //return fetchResult.count
     }
     
     func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
-        
-        
+    
         guard let cell = pictureCollectionView.dequeueReusableCell(withReuseIdentifier: Constants.pictureCellIdentifier, for: indexPath) as? PictureListCollectionViewCell else{
             
             return UICollectionViewCell()
@@ -97,11 +82,5 @@ extension PictureListViewController: UICollectionViewDataSource, UICollectionVie
             }
         })
         return cell
-    }
-    
-    
-    
-    
-    
-    
+    }  
 }

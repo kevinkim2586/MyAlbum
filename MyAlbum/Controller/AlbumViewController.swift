@@ -190,7 +190,4 @@ extension AlbumViewController: PHPhotoLibraryChangeObserver{
             self.albumCollectionView.reloadData()
         }
     }
-    
-
-    
 }
