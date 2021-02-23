@@ -18,6 +18,7 @@
 		7C0B8DCA25DFC0080037A43E /* PictureListViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7C0B8DC925DFC0080037A43E /* PictureListViewController.swift */; };
 		7C0B8DCD25DFC1D60037A43E /* PictureListCollectionViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7C0B8DCC25DFC1D60037A43E /* PictureListCollectionViewCell.swift */; };
 		7C0B8DD025DFE4C80037A43E /* AlbumModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7C0B8DCF25DFE4C80037A43E /* AlbumModel.swift */; };
+		7C0B8DDA25E5449F0037A43E /* PictureDetailViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7C0B8DD925E5449E0037A43E /* PictureDetailViewController.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -34,6 +35,7 @@
 		7C0B8DC925DFC0080037A43E /* PictureListViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PictureListViewController.swift; sourceTree = "<group>"; };
 		7C0B8DCC25DFC1D60037A43E /* PictureListCollectionViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PictureListCollectionViewCell.swift; sourceTree = "<group>"; };
 		7C0B8DCF25DFE4C80037A43E /* AlbumModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AlbumModel.swift; sourceTree = "<group>"; };
+		7C0B8DD925E5449E0037A43E /* PictureDetailViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PictureDetailViewController.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -101,6 +103,7 @@
 			children = (
 				7C0B8DAC25DF58280037A43E /* AlbumViewController.swift */,
 				7C0B8DC925DFC0080037A43E /* PictureListViewController.swift */,
+				7C0B8DD925E5449E0037A43E /* PictureDetailViewController.swift */,
 			);
 			path = Controller;
 			sourceTree = "<group>";
@@ -191,6 +194,7 @@
 				7C0B8DCA25DFC0080037A43E /* PictureListViewController.swift in Sources */,
 				7C0B8DD025DFE4C80037A43E /* AlbumModel.swift in Sources */,
 				7C0B8DC325DF5D8F0037A43E /* Constants.swift in Sources */,
+				7C0B8DDA25E5449F0037A43E /* PictureDetailViewController.swift in Sources */,
 				7C0B8DC725DF67F60037A43E /* AlbumCollectionViewCell.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;

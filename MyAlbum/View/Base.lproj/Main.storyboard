@@ -179,22 +179,24 @@
                         <outlet property="pictureCollectionView" destination="1H6-eQ-Dn5" id="Lwv-o2-TZd"/>
                         <outlet property="selectButton" destination="p2m-oQ-baj" id="svT-av-rNE"/>
                         <outlet property="trashButton" destination="gKE-cW-z25" id="LN0-Gb-0YK"/>
+                        <segue destination="1op-cP-R1u" kind="show" id="ARD-Uz-nke"/>
                     </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="LbJ-5I-3pP" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>
             </objects>
             <point key="canvasLocation" x="1900" y="92.417061611374407"/>
         </scene>
-        <!--View Controller-->
+        <!--생성 일자-->
         <scene sceneID="E2t-ur-FJa">
             <objects>
-                <viewController id="1op-cP-R1u" sceneMemberID="viewController">
+                <viewController title="생성 일자" id="1op-cP-R1u" sceneMemberID="viewController">
                     <view key="view" contentMode="scaleToFill" id="LG3-ul-F5C">
                         <rect key="frame" x="0.0" y="0.0" width="390" height="844"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <viewLayoutGuide key="safeArea" id="ftu-yu-ypz"/>
                         <color key="backgroundColor" systemColor="systemBackgroundColor"/>
                     </view>
+                    <navigationItem key="navigationItem" id="PDH-2q-dtJ"/>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="Tda-gO-zs9" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>
             </objects>

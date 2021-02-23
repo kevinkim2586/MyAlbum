@@ -37,16 +37,25 @@ class PictureListViewController: UIViewController {
         fetchOptions.sortDescriptors = [NSSortDescriptor(key: "creationDate", ascending: false)]
         return fetchOptions
     }
-    
-    
+
     var currentMode: Mode = .view{
         
         didSet{
             switch currentMode{
             case .view:
+                
+                for (key, value) in selectedIndexPath{
+                    if value == true{
+                        guard let cell = pictureCollectionView.cellForItem(at: key) as? PictureListCollectionViewCell else{
+                            return
+                        }
+                        cell.pictureImageView.alpha = 1.0
+                    }
+                }
+                selectedIndexPath.removeAll()
+                
                 selectButton.title = "선택"
                 trashButton.isEnabled = false
-                //pictureCollectionView.reloadData()
                 pictureCollectionView.allowsMultipleSelection = false
                 
             case .select:
@@ -56,10 +65,6 @@ class PictureListViewController: UIViewController {
             }
         }
     }
-    
-    
-    
-    
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -108,12 +113,10 @@ extension PictureListViewController: UICollectionViewDataSource, UICollectionVie
         guard let cell = collectionView.cellForItem(at: indexPath) as? PictureListCollectionViewCell else{
             return
         }
-     
         
         switch currentMode{
-        
         case .view:
-            
+            collectionView.deselectItem(at: indexPath, animated: true)
             let selectedItem = imageArray[indexPath.item]
             
         case .select:
