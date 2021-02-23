@@ -94,9 +94,6 @@ class AlbumViewController: UIViewController {
                 let newAlbum = AlbumModel(name:albumTitle, count: albumCount, collection:album)
 
                 self.albumModel.append(newAlbum)
-                
-                // albumModel[indexPath.row] 형태로 넘기면 될듯
-     
             }
         }
     
@@ -104,8 +101,6 @@ class AlbumViewController: UIViewController {
         addAlbums(collection: favoriteList)
         addAlbums(collection: albumList)
     }
-    
-    
     
     func addAlbums(collection : PHFetchResult<PHAssetCollection>){
         

@@ -84,20 +84,18 @@ extension PictureListViewController: UICollectionViewDataSource, UICollectionVie
             return UICollectionViewCell()
         }
         
+        let options: PHImageRequestOptions = PHImageRequestOptions()
+        options.resizeMode = .exact
+        
         let asset = imageArray[indexPath.row]
         
-        imageManager.requestImage(for: asset, targetSize: CGSize(width: 300, height: 300), contentMode: .aspectFill, options: nil, resultHandler: {
+        imageManager.requestImage(for: asset, targetSize: CGSize(width: 300, height: 300), contentMode: .aspectFill, options: options, resultHandler: {
             (image, _ ) in
             
             DispatchQueue.main.async {
                 cell.pictureImageView?.image = image
             }
         })
-        
-        
-        //cell.pictureImageView.image = imageArray[indexPath.row]
-        
-        
         return cell
     }
     

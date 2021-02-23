@@ -6,14 +6,6 @@ class AlbumCollectionViewCell: UICollectionViewCell {
     @IBOutlet weak var albumNameLabel: UILabel!
     @IBOutlet weak var albumTotalNumberOfPicturesLabel: UILabel!
     
-    // When we dequeue our cell, we could just call this public function
-    // instead of having to access each IBOutlet directly
-    
-    public func configure(image: UIImage, albumName: String, numberOfPics: Int ){
-        albumImageView.image = image
-        albumNameLabel.text = albumName
-        albumTotalNumberOfPicturesLabel.text = String(format: "%d", numberOfPics)
-    }
-    
+
     
 }
