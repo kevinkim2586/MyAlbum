@@ -4,6 +4,9 @@ import Photos
 class PictureListViewController: UIViewController {
     
     @IBOutlet weak var pictureCollectionView: UICollectionView!
+    @IBOutlet weak var shareButton: UIBarButtonItem!
+    @IBOutlet weak var orderButton: UIBarButtonItem!
+    @IBOutlet weak var trashButton: UIBarButtonItem!
     
     var album: AlbumModel = AlbumModel(name: "", count: 0, collection: PHAssetCollection())
     var numberOfPictures: Int = 0
@@ -51,8 +54,6 @@ class PictureListViewController: UIViewController {
     
     func grabPhotos(){
 
-        
-        
         let albumCollection = album.collection
         let assetsFetchResult: PHFetchResult = PHAsset.fetchAssets(in: albumCollection, options: fetchOptions)
         
@@ -78,9 +79,6 @@ extension PictureListViewController: UICollectionViewDataSource, UICollectionVie
         guard let cell = pictureCollectionView.dequeueReusableCell(withReuseIdentifier: Constants.pictureCellIdentifier, for: indexPath) as? PictureListCollectionViewCell else{
             return UICollectionViewCell()
         }
-        
-        
-        
         let asset = imageArray[indexPath.row]
         
         imageManager.requestImage(for: asset, targetSize: CGSize(width: 300, height: 300), contentMode: .aspectFill, options: options, resultHandler: {

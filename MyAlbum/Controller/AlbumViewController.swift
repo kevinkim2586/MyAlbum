@@ -8,7 +8,7 @@ class AlbumViewController: UIViewController {
     var albumModel: [AlbumModel] = [AlbumModel]()
     
     var fetchResult: [PHFetchResult<PHAsset>] = []
-    let imageManager: PHCachingImageManager = PHCachingImageManager()
+    let imageManager: PHImageManager = PHImageManager.default()
     var fetchOptions: PHFetchOptions{
 
         let fetchOptions = PHFetchOptions()
@@ -83,7 +83,7 @@ class AlbumViewController: UIViewController {
         
         [cameraRoll, favoriteList, albumList].forEach{
             
-            $0.enumerateObjects { collection, index, stop in
+            $0.enumerateObjects { collection, _, _ in
                 
                 let album = collection
                 let albumTitle : String = album.localizedTitle!
@@ -124,7 +124,6 @@ extension AlbumViewController: UICollectionViewDataSource, UICollectionViewDeleg
             return
         }
         
-
         pictureVC.album = albumModel[indexPath.row]
         pictureVC.title = albumModel[indexPath.row].name
         
@@ -137,8 +136,6 @@ extension AlbumViewController: UICollectionViewDataSource, UICollectionViewDeleg
         
         guard let cell = collectionView.dequeueReusableCell(withReuseIdentifier: Constants.albumCellIdentifier, for: indexPath) as? AlbumCollectionViewCell else{
             return UICollectionViewCell()
-            
-            
         }
         
         guard let asset = fetchResult[indexPath.row].firstObject else {
@@ -157,15 +154,10 @@ extension AlbumViewController: UICollectionViewDataSource, UICollectionViewDeleg
             
         }
         
-        
-        
         cell.albumNameLabel.text = albumModel[indexPath.row].name
         cell.albumTotalNumberOfPicturesLabel.text = String(format: "%d", albumModel[indexPath.row].count)
         
         return cell
-        
-        
-        
     }
     
     func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {

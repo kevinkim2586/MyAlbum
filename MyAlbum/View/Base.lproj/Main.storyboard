@@ -158,7 +158,10 @@
                         <barButtonItem key="rightBarButtonItem" title="선택" id="p2m-oQ-baj"/>
                     </navigationItem>
                     <connections>
+                        <outlet property="orderButton" destination="3sm-4T-KoF" id="Nu8-kG-QKh"/>
                         <outlet property="pictureCollectionView" destination="1H6-eQ-Dn5" id="Lwv-o2-TZd"/>
+                        <outlet property="shareButton" destination="3Do-KZ-CIl" id="Kek-m5-Vlb"/>
+                        <outlet property="trashButton" destination="gKE-cW-z25" id="lQ3-BM-bDv"/>
                     </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="LbJ-5I-3pP" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>
