@@ -16,6 +16,7 @@ class PictureListViewController: UIViewController {
     var album: AlbumModel = AlbumModel(name: "", count: 0, collection: PHAssetCollection())
     var numberOfPictures: Int = 0
     var albumName: String = ""
+    var numberOfImagesSelected = 0
 
     let imageManager = PHImageManager.default()
     var imageArray = [PHAsset]()
@@ -56,6 +57,7 @@ class PictureListViewController: UIViewController {
                 navigationItem.title = album.name
                 selectButton.title = "선택"
                 trashButton.isEnabled = false
+                numberOfImagesSelected = 0
                 pictureCollectionView.allowsMultipleSelection = false
                 
             case .select:
@@ -103,6 +105,7 @@ class PictureListViewController: UIViewController {
         }
         pictureCollectionView.reloadData()
     }
+
 }
 
 //MARK: - UICollectionViewDataSource, UICollectionViewDelegate
@@ -131,24 +134,31 @@ extension PictureListViewController: UICollectionViewDataSource, UICollectionVie
             cell.pictureImageView.alpha = 0.5
             selectedIndexPath[indexPath] = true
             
-            var count = 0
-            
-            for (_, value) in selectedIndexPath{
-                
-                if value == true{
-                    count += 1
-                }
-            }
-            navigationItem.title = "\(count)장 선택"
-        
+            numberOfImagesSelected += 1
+            navigationItem.title = "\(numberOfImagesSelected)장 선택"
         }
 
     }
     
     func collectionView(_ collectionView: UICollectionView, didDeselectItemAt indexPath: IndexPath) {
         
-        if currentMode == .select{
+        guard let cell = collectionView.cellForItem(at: indexPath) as? PictureListCollectionViewCell else{
+            return
+        }
+        
+        switch currentMode {
+        case .select:
             selectedIndexPath[indexPath] = false
+            cell.pictureImageView.alpha = 1
+            
+            numberOfImagesSelected -= 1
+            navigationItem.title = "\(numberOfImagesSelected)장 선택"
+            
+        case .view:
+            fallthrough
+            
+        default:
+            break
         }
     }
     
