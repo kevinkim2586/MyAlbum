@@ -65,7 +65,6 @@ class PictureListViewController: UIViewController {
             case .select:
                 selectButton.title = "취소"
                 navigationItem.title = "항목 선택"
-                trashButton.isEnabled = true
                 pictureCollectionView.allowsMultipleSelection = true
             }
         }
@@ -142,6 +141,7 @@ extension PictureListViewController: UICollectionViewDataSource, UICollectionVie
             
             if numberOfImagesSelected > 0 {
                 shareButton.isEnabled = true
+                trashButton.isEnabled = true
             }
 
         }
@@ -163,6 +163,7 @@ extension PictureListViewController: UICollectionViewDataSource, UICollectionVie
             
             if numberOfImagesSelected == 0{
                 shareButton.isEnabled = false
+                trashButton.isEnabled = false
             }
             
         case .view:
