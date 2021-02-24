@@ -189,18 +189,41 @@
         <!--생성 일자-->
         <scene sceneID="E2t-ur-FJa">
             <objects>
-                <viewController title="생성 일자" id="1op-cP-R1u" sceneMemberID="viewController">
+                <viewController storyboardIdentifier="imageVC" title="생성 일자" id="1op-cP-R1u" customClass="PictureDetailViewController" customModule="MyAlbum" customModuleProvider="target" sceneMemberID="viewController">
                     <view key="view" contentMode="scaleToFill" id="LG3-ul-F5C">
                         <rect key="frame" x="0.0" y="0.0" width="390" height="844"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+                        <subviews>
+                            <scrollView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" fixedFrame="YES" maximumZoomScale="3" translatesAutoresizingMaskIntoConstraints="NO" id="13U-xg-Dv9">
+                                <rect key="frame" x="0.0" y="88" width="390" height="722"/>
+                                <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                                <subviews>
+                                    <imageView clipsSubviews="YES" userInteractionEnabled="NO" contentMode="scaleAspectFit" horizontalHuggingPriority="251" verticalHuggingPriority="251" translatesAutoresizingMaskIntoConstraints="NO" id="WZe-rD-pcj">
+                                        <rect key="frame" x="0.0" y="0.0" width="390" height="722"/>
+                                    </imageView>
+                                </subviews>
+                                <constraints>
+                                    <constraint firstItem="WZe-rD-pcj" firstAttribute="top" secondItem="CM4-pl-XFo" secondAttribute="top" id="9Hg-Mq-OW5"/>
+                                    <constraint firstItem="WZe-rD-pcj" firstAttribute="leading" secondItem="CM4-pl-XFo" secondAttribute="leading" id="EEh-Z1-qmV"/>
+                                    <constraint firstItem="WZe-rD-pcj" firstAttribute="bottom" secondItem="CM4-pl-XFo" secondAttribute="bottom" id="Xvw-gb-Pu0"/>
+                                    <constraint firstItem="WZe-rD-pcj" firstAttribute="trailing" secondItem="CM4-pl-XFo" secondAttribute="trailing" id="sx0-ak-bdc"/>
+                                </constraints>
+                                <viewLayoutGuide key="contentLayoutGuide" id="svu-XI-tDx"/>
+                                <viewLayoutGuide key="frameLayoutGuide" id="CM4-pl-XFo"/>
+                            </scrollView>
+                        </subviews>
                         <viewLayoutGuide key="safeArea" id="ftu-yu-ypz"/>
                         <color key="backgroundColor" systemColor="systemBackgroundColor"/>
                     </view>
                     <navigationItem key="navigationItem" id="PDH-2q-dtJ"/>
+                    <connections>
+                        <outlet property="imageView" destination="WZe-rD-pcj" id="bKU-qx-Q2h"/>
+                        <outlet property="scrollView" destination="13U-xg-Dv9" id="03r-jm-9aY"/>
+                    </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="Tda-gO-zs9" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="2825" y="93"/>
+            <point key="canvasLocation" x="2823.0769230769229" y="92.417061611374407"/>
         </scene>
         <!--Navigation Controller-->
         <scene sceneID="xQu-GV-Bti">

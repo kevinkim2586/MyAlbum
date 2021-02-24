@@ -117,7 +117,16 @@ extension PictureListViewController: UICollectionViewDataSource, UICollectionVie
         switch currentMode{
         case .view:
             collectionView.deselectItem(at: indexPath, animated: true)
-            let selectedItem = imageArray[indexPath.item]
+            let selectedImage = imageArray[indexPath.item]
+            
+            guard let imageVC = self.storyboard?.instantiateViewController(identifier: "imageVC") as? PictureDetailViewController else{
+                return
+            }
+            
+            imageVC.imageToShow = selectedImage
+            
+            self.show(imageVC, sender: self)
+            
             
         case .select:
             cell.pictureImageView.alpha = 0.5
@@ -125,15 +134,7 @@ extension PictureListViewController: UICollectionViewDataSource, UICollectionVie
         
         
         }
-     
-//        if cell.isSelected == true {
-//            cell.pictureImageView.alpha = 0
-//        } else{
-//            cell.pictureImageView.alpha = 0.5
-//        }
-        
-        //cell.pictureImageView.layer.borderWidth = 3
-        //cell.pictureImageView.layer.borderColor = UIColor.black.cgColor
+
     }
     
     func collectionView(_ collectionView: UICollectionView, didDeselectItemAt indexPath: IndexPath) {
