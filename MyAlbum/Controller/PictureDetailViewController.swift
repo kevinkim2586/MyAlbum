@@ -6,6 +6,10 @@ class PictureDetailViewController: UIViewController {
     @IBOutlet weak var imageView: UIImageView!
     @IBOutlet weak var scrollView: UIScrollView!
     
+    @IBOutlet weak var shareButton: UIBarButtonItem!
+    @IBOutlet weak var favoriteButton: UIBarButtonItem!
+    @IBOutlet weak var deleteButton: UIBarButtonItem!
+    
     var imageToShow: PHAsset = PHAsset()
     let imageManager = PHImageManager.default()
     
@@ -32,23 +36,21 @@ class PictureDetailViewController: UIViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
 
-        
         scrollView.delegate = self
+        
         setTitle()
         presentImage()
     }
     
     func setTitle(){
         
-        guard let imageTimeData = imageToShow.creationDate else{
-            return
-        }
+        guard let imageTimeData = imageToShow.creationDate else { return }
         
+        let date = dateFormatter.string(from: imageTimeData)
+        let time = timeFormatter.string(from: imageTimeData)
         
-//        print(dateFormatter.string(from: today))
-//        print(timeFormatter.string(from: today))
+        navigationItem.title = date + " " + time
     }
-    
     
     func presentImage(){
         
@@ -65,7 +67,26 @@ class PictureDetailViewController: UIViewController {
         })
         
     }
+    
 
+}
+
+//MARK: - @IBAction methods
+
+extension PictureDetailViewController{
+    
+    @IBAction func pressedShareButton(_ sender: UIBarButtonItem) {
+        
+    }
+    
+    
+    @IBAction func pressedFavoriteButton(_ sender: UIBarButtonItem) {
+        
+    }
+    @IBAction func pressedDeleteButton(_ sender: UIBarButtonItem) {
+        
+    }
+    
 }
 
 
