@@ -11,7 +11,7 @@ class PictureListViewController: UIViewController {
     @IBOutlet weak var selectButton: UIBarButtonItem!
     @IBOutlet weak var orderButton: UIBarButtonItem!
     @IBOutlet weak var trashButton: UIBarButtonItem!
-    
+    @IBOutlet weak var shareButton: UIBarButtonItem!
     
     var album: AlbumModel = AlbumModel(name: "", count: 0, collection: PHAssetCollection())
     var numberOfPictures: Int = 0
@@ -20,6 +20,7 @@ class PictureListViewController: UIViewController {
 
     let imageManager = PHImageManager.default()
     var imageArray = [PHAsset]()
+    var imageToShare = [UIImage]()
     
     var selectedIndexPath: [IndexPath : Bool] = [:]
     
@@ -57,6 +58,7 @@ class PictureListViewController: UIViewController {
                 navigationItem.title = album.name
                 selectButton.title = "선택"
                 trashButton.isEnabled = false
+                shareButton.isEnabled = false
                 numberOfImagesSelected = 0
                 pictureCollectionView.allowsMultipleSelection = false
                 
@@ -78,6 +80,7 @@ class PictureListViewController: UIViewController {
         grabPhotos()
         pictureCollectionView.reloadData()
         
+        shareButton.isEnabled = false
         trashButton.isEnabled = false
     }
    
@@ -120,7 +123,7 @@ extension PictureListViewController: UICollectionViewDataSource, UICollectionVie
         
         switch currentMode{
         case .view:
-            collectionView.deselectItem(at: indexPath, animated: true)
+            //collectionView.deselectItem(at: indexPath, animated: true)
             let selectedImage = imageArray[indexPath.item]
             
             guard let imageVC = self.storyboard?.instantiateViewController(identifier: "imageVC") as? PictureDetailViewController else{
@@ -136,8 +139,12 @@ extension PictureListViewController: UICollectionViewDataSource, UICollectionVie
             
             numberOfImagesSelected += 1
             navigationItem.title = "\(numberOfImagesSelected)장 선택"
-        }
+            
+            if numberOfImagesSelected > 0 {
+                shareButton.isEnabled = true
+            }
 
+        }
     }
     
     func collectionView(_ collectionView: UICollectionView, didDeselectItemAt indexPath: IndexPath) {
@@ -153,6 +160,10 @@ extension PictureListViewController: UICollectionViewDataSource, UICollectionVie
             
             numberOfImagesSelected -= 1
             navigationItem.title = "\(numberOfImagesSelected)장 선택"
+            
+            if numberOfImagesSelected == 0{
+                shareButton.isEnabled = false
+            }
             
         case .view:
             fallthrough
@@ -196,7 +207,7 @@ extension PictureListViewController{
     
     
     @IBAction func pressedShareButton(_ sender: UIBarButtonItem) {
-        
+        showShareSheet()
     }
     
     @IBAction func pressedOrderButton(_ sender: UIBarButtonItem) {
@@ -239,6 +250,27 @@ extension PictureListViewController{
     
     func showShareSheet(){
         
+        if numberOfImagesSelected < 1 { return }
+        imageToShare.removeAll()
+        
+        shareButton.isEnabled = true
+        
+        for (key, value) in selectedIndexPath{
+            
+            if value == true{
+                
+                let asset = imageArray[key.row]
+                
+                imageManager.requestImage(for: asset, targetSize: CGSize(width: 300, height: 300), contentMode: .aspectFill, options: options, resultHandler: {
+                    (image, _ ) in
+                    
+                    if let selectedImage = image{
+                        self.imageToShare.append(selectedImage)
+                    }
+                })
+            }
+        }
+        let shareSheetVC = UIActivityViewController(activityItems: imageToShare, applicationActivities: nil)
+        self.present(shareSheetVC, animated: true, completion: nil)
     }
-    
 }

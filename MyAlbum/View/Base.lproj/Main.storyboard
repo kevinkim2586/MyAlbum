@@ -178,6 +178,7 @@
                         <outlet property="orderButton" destination="3sm-4T-KoF" id="WUW-65-q5l"/>
                         <outlet property="pictureCollectionView" destination="1H6-eQ-Dn5" id="Lwv-o2-TZd"/>
                         <outlet property="selectButton" destination="p2m-oQ-baj" id="svT-av-rNE"/>
+                        <outlet property="shareButton" destination="3Do-KZ-CIl" id="hwe-vY-dJJ"/>
                         <outlet property="trashButton" destination="gKE-cW-z25" id="LN0-Gb-0YK"/>
                         <segue destination="1op-cP-R1u" kind="show" id="ARD-Uz-nke"/>
                     </connections>
