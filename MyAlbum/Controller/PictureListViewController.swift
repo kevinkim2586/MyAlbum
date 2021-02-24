@@ -53,13 +53,14 @@ class PictureListViewController: UIViewController {
                     }
                 }
                 selectedIndexPath.removeAll()
-                
+                navigationItem.title = album.name
                 selectButton.title = "선택"
                 trashButton.isEnabled = false
                 pictureCollectionView.allowsMultipleSelection = false
                 
             case .select:
                 selectButton.title = "취소"
+                navigationItem.title = "항목 선택"
                 trashButton.isEnabled = true
                 pictureCollectionView.allowsMultipleSelection = true
             }
@@ -124,14 +125,21 @@ extension PictureListViewController: UICollectionViewDataSource, UICollectionVie
             }
             
             imageVC.imageToShow = selectedImage
-            
             self.show(imageVC, sender: self)
-            
             
         case .select:
             cell.pictureImageView.alpha = 0.5
             selectedIndexPath[indexPath] = true
-        
+            
+            var count = 0
+            
+            for (_, value) in selectedIndexPath{
+                
+                if value == true{
+                    count += 1
+                }
+            }
+            navigationItem.title = "\(count)장 선택"
         
         }
 
@@ -173,8 +181,6 @@ extension PictureListViewController{
     @IBAction func pressedSelectButton(_ sender: UIBarButtonItem) {
 
         currentMode = currentMode == .view ? .select : .view
-        
-        
     }
     
     
@@ -184,6 +190,7 @@ extension PictureListViewController{
     }
     
     @IBAction func pressedOrderButton(_ sender: UIBarButtonItem) {
+        
         imageArray.reverse()
         
         if orderButton.title == "최신순"{
