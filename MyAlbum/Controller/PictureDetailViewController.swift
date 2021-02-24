@@ -12,6 +12,7 @@ class PictureDetailViewController: UIViewController {
     
     var imageToShow: PHAsset = PHAsset()
     let imageManager = PHImageManager.default()
+   
     
     var options: PHImageRequestOptions{
         
@@ -40,7 +41,11 @@ class PictureDetailViewController: UIViewController {
         
         setTitle()
         presentImage()
+        
+       // PHPhotoLibrary.shared().register(self)
     }
+    
+    
     
     func setTitle(){
         
@@ -62,12 +67,13 @@ class PictureDetailViewController: UIViewController {
             
             DispatchQueue.main.async{
                 self.imageView.image = image
+                if self.imageToShow.isFavorite {
+                    self.favoriteButton.image = UIImage(systemName: "suit.heart.fill")
+                }
             }
             
         })
-        
     }
-    
 
 }
 
@@ -82,13 +88,31 @@ extension PictureDetailViewController{
     
     @IBAction func pressedFavoriteButton(_ sender: UIBarButtonItem) {
         
+        PHPhotoLibrary.shared().performChanges({
+            
+            let request = PHAssetChangeRequest(for: self.imageToShow)
+            request.isFavorite = !self.imageToShow.isFavorite
+        }, completionHandler: { success, error in
+            if success {
+                DispatchQueue.main.sync {
+                    sender.image = self.imageToShow.isFavorite ? UIImage(systemName: "suit.heart") : UIImage(systemName: "suit.heart.fill")
+                }
+            } else {
+                print("Can't mark the asset as a Favorite: \(String(describing: error))")
+            }
+        })
+        
     }
+    
     @IBAction func pressedDeleteButton(_ sender: UIBarButtonItem) {
+        
+        
         
     }
     
 }
 
+//MARK: - UIScrollViewDelegate
 
 extension PictureDetailViewController: UIScrollViewDelegate{
     
@@ -97,3 +121,12 @@ extension PictureDetailViewController: UIScrollViewDelegate{
     }
     
 }
+
+//MARK: - PHPhotoLibraryChangeObserver
+
+//extension PictureListViewController: PHPhotoLibraryChangeObserver {
+//
+//    func photoLibraryDidChange(_ changeInstance: PHChange) {
+//        <#code#>
+//    }
+//}

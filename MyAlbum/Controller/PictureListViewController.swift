@@ -81,6 +81,8 @@ class PictureListViewController: UIViewController {
         
         shareButton.isEnabled = false
         trashButton.isEnabled = false
+        
+        //PHPhotoLibrary.shared().register(self)
     }
    
     
@@ -275,3 +277,14 @@ extension PictureListViewController{
         self.present(shareSheetVC, animated: true, completion: nil)
     }
 }
+
+//MARK: - PHPhotoLibraryChangeObserver
+
+//extension PictureListViewController: PHPhotoLibraryChangeObserver {
+    
+//    func photoLibraryDidChange(_ changeInstance: PHChange){
+//        
+//        
+//        
+//    }
+//}

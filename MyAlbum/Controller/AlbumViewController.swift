@@ -16,6 +16,11 @@ class AlbumViewController: UIViewController {
         return fetchOptions
     }
     
+    override func viewWillAppear(_ animated: Bool) {
+        super.viewWillAppear(animated)
+        albumCollectionView.reloadData()
+    }
+    
     override func viewDidLoad() {
         super.viewDidLoad()
         
@@ -24,7 +29,6 @@ class AlbumViewController: UIViewController {
         
         authorizePhotoAccess()
         setFlowLayout()
-        
         albumCollectionView.reloadData()
     }
 
@@ -113,9 +117,9 @@ class AlbumViewController: UIViewController {
 
 }
 
-extension AlbumViewController: UICollectionViewDataSource, UICollectionViewDelegate{
-    
-    // 앨범을 누르면 실행
+//MARK: - UICollectionViewDataSource, UICollectionViewDelegate
+
+extension AlbumViewController: UICollectionViewDataSource, UICollectionViewDelegate {
     
     func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
         collectionView.deselectItem(at: indexPath, animated: true)
@@ -129,8 +133,6 @@ extension AlbumViewController: UICollectionViewDataSource, UICollectionViewDeleg
         
         self.show(pictureVC, sender: self)
     }
-    
-    // 각 셀 만듦
     
     func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
         
@@ -167,7 +169,7 @@ extension AlbumViewController: UICollectionViewDataSource, UICollectionViewDeleg
     
 }
 
-
+//MARK: - PHPhotoLibraryChangeObserver
 
 extension AlbumViewController: PHPhotoLibraryChangeObserver{
     
