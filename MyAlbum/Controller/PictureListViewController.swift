@@ -20,6 +20,7 @@ class PictureListViewController: UIViewController {
 
     let imageManager = PHImageManager.default()
     var imageArray = [PHAsset]()
+    var imagesToDelete = [PHAsset]()
     var imageToShare = [UIImage]()
     
     var selectedIndexPath: [IndexPath : Bool] = [:]
@@ -86,15 +87,25 @@ class PictureListViewController: UIViewController {
     }
    
     
+    override func viewWillAppear(_ animated: Bool) {
+        super.viewWillAppear(animated)
+        pictureCollectionView.reloadData()
+    }
+    
     func setFlowLayout(){
         
         let flowLayout = UICollectionViewFlowLayout()
-        flowLayout.minimumInteritemSpacing = 10
-        flowLayout.minimumLineSpacing  = 1
-        flowLayout.sectionInset = UIEdgeInsets(top: 10, left: 10, bottom: 10, right: 10)
-        flowLayout.itemSize = CGSize(width: 180, height: 220)
         
-        pictureCollectionView.collectionViewLayout = flowLayout
+        
+        flowLayout.sectionInset = UIEdgeInsets(top: 0, left: 0, bottom: 0, right: 0)
+        flowLayout.minimumInteritemSpacing = 7
+        flowLayout.minimumLineSpacing  = 7
+        
+        let width = (UIScreen.main.bounds.width - 14) / 3.0
+        
+        flowLayout.itemSize = CGSize(width: width, height: width)
+        
+        self.pictureCollectionView.collectionViewLayout = flowLayout
     }
     
     func grabPhotos(){
@@ -107,7 +118,7 @@ class PictureListViewController: UIViewController {
         assetsFetchResult.enumerateObjects { (object, _, _) in
             self.imageArray.append(object)
         }
-        pictureCollectionView.reloadData()
+        self.pictureCollectionView.reloadData()
     }
 
 }
@@ -227,21 +238,44 @@ extension PictureListViewController{
     
     @IBAction func pressedTrashButton(_ sender: UIBarButtonItem) {
         
-        var deleteNeededIndexPath: [IndexPath] = []
+        imagesToDelete.removeAll()
         
-        for (key,value) in selectedIndexPath{
+        for (key, value) in selectedIndexPath {
             
-            if value == true{
-                deleteNeededIndexPath.append(key)
+            if value ==  true {
+                
+                imagesToDelete.append(imageArray[key.row])
+                
             }
         }
         
-        for i in deleteNeededIndexPath.sorted(by: { $0.item > $1.item }){
-            imageArray.remove(at: i.item)
+        let assetsToDelete = imagesToDelete
+        
+        for i in 0..<assetsToDelete.count{
+            PHPhotoLibrary.shared().performChanges({ PHAssetChangeRequest.deleteAssets([assetsToDelete[i]] as NSArray)}, completionHandler: nil)
         }
+    
+        currentMode = .view
+        
+        
+//        var deleteNeededIndexPath: [IndexPath] = []
+//
+//        for (key,value) in selectedIndexPath{
+//
+//            if value == true{
+//                deleteNeededIndexPath.append(key)
+//            }
+//        }
+//
+//        for i in deleteNeededIndexPath.sorted(by: { $0.item > $1.item }){
+//            imageArray.remove(at: i.item)
+//        }
+//
+//        pictureCollectionView.deleteItems(at: deleteNeededIndexPath)
+//
+//        selectedIndexPath.removeAll()
 
-        pictureCollectionView.deleteItems(at: deleteNeededIndexPath)
-        selectedIndexPath.removeAll()
+        
     }
     
     
@@ -280,11 +314,10 @@ extension PictureListViewController{
 
 //MARK: - PHPhotoLibraryChangeObserver
 
-//extension PictureListViewController: PHPhotoLibraryChangeObserver {
+extension PictureListViewController: PHPhotoLibraryChangeObserver {
     
-//    func photoLibraryDidChange(_ changeInstance: PHChange){
-//        
-//        
-//        
-//    }
-//}
+    func photoLibraryDidChange(_ changeInstance: PHChange) {
+        self.pictureCollectionView.reloadData()
+    }
+    
+}

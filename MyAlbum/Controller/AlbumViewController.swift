@@ -165,23 +165,44 @@ extension AlbumViewController: UICollectionViewDataSource, UICollectionViewDeleg
     func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
         return albumModel.count
     }
-    
-    
 }
 
-//MARK: - PHPhotoLibraryChangeObserver
+//MARK: -
 
 extension AlbumViewController: PHPhotoLibraryChangeObserver{
     
     func photoLibraryDidChange(_ changeInstance: PHChange) {
-        for i in 0..<self.fetchResult.count {
-            if let changes = changeInstance.changeDetails(for: fetchResult[i]) {
-                fetchResult[i] = changes.fetchResultAfterChanges
+//        for i in 0..<self.fetchResult.count {
+//            if let changes = changeInstance.changeDetails(for: fetchResult[i]) {
+//                fetchResult[i] = changes.fetchResultAfterChanges
+//            }
+//        }
+//
+//        OperationQueue.main.addOperation {
+//            self.albumCollectionView.reloadData()
+        //        }
+        
+        
+        for i in 0..<self.albumModel.count{
+            
+            if let changes = changeInstance.changeDetails(for: albumModel[i].collection){
+                
+                if let changesMade = changes.objectAfterChanges{
+                    albumModel[i].collection = changesMade
+                }
+                OperationQueue.main.addOperation {
+                    self.albumCollectionView.reloadSections(IndexSet(0...0))
+                }
+                
+            }
+            OperationQueue.main.addOperation {
+                self.albumCollectionView.reloadSections(IndexSet(0...0))
             }
         }
         
-        OperationQueue.main.addOperation {
-            self.albumCollectionView.reloadData()
-        }
+
+        
+        
+        
     }
 }

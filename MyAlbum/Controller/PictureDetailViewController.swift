@@ -101,12 +101,13 @@ extension PictureDetailViewController{
                 print("Can't mark the asset as a Favorite: \(String(describing: error))")
             }
         })
-        
     }
     
     @IBAction func pressedDeleteButton(_ sender: UIBarButtonItem) {
         
+        let asset = imageToShow
         
+        PHPhotoLibrary.shared().performChanges({ PHAssetChangeRequest.deleteAssets([asset] as NSFastEnumeration)}, completionHandler: nil)
         
     }
     
