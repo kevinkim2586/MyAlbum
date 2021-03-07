@@ -8,5 +8,6 @@
 - PHAsset, PHAssetCollection, PHFetchResult, PHImageManager 등의 개념을 익힘
 - ScrollView 에서의 AutoLayout 익힘
 - CollectionView 사용 시 AutoLayout 적용, Custom Cell 적용, FlowLayout 등의 개념을 익힘
+- UIActivityViewController 
 
 ![image](https://user-images.githubusercontent.com/44637101/110229091-4660f980-7f4a-11eb-9117-554883077cc1.png)
